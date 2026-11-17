@@ -1,0 +1,8 @@
+{
+  "name": "Reclaiming the Narrative",
+  "description": "An independent psychology newspaper and academic journal by Shane J. Lozenich examining epistemic trauma, the bureaucratic unconscious, and counter-archival coherence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

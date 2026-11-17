@@ -1,0 +1,235 @@
+{
+  "entities": {
+    "Article": {
+      "title": "Article",
+      "description": "A long-form psychological, legal, or systemic essay published in Reclaiming the Narrative.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "slug": {
+          "type": "string",
+          "maxLength": 160,
+          "pattern": "^[a-z0-9\\-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300
+        },
+        "subtitle": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "abstract": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "body": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 100000
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "authorUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 450000
+        },
+        "imageCaption": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "wayIntoArchive": {
+          "type": "string",
+          "enum": ["lived-experience", "mechanisms", "counter-archive"]
+        },
+        "tags": {
+          "type": "array",
+          "maxLength": 10
+        },
+        "readingTimeMinutes": {
+          "type": "integer"
+        },
+        "issueNumber": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "displayDate": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "sourceDocumentUrl": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "published": {
+          "type": "boolean"
+        },
+        "featured": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "slug",
+        "title",
+        "subtitle",
+        "abstract",
+        "body",
+        "authorName",
+        "authorUid",
+        "imageUrl",
+        "imageCaption",
+        "wayIntoArchive",
+        "tags",
+        "readingTimeMinutes",
+        "issueNumber",
+        "displayDate",
+        "published",
+        "featured",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Tag": {
+      "title": "Tag",
+      "description": "Custom editorial taxonomy tag for organizing essays and research monographs.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-z0-9\\-]+$"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Psychoanalytic", "Legal & Statutory", "Systems & Data", "Archival Method"]
+        },
+        "createdByUid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "description",
+        "category",
+        "createdByUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Subscriber": {
+      "title": "Subscriber",
+      "description": "Newsletter subscriber email and preference (PII isolated to admin read only).",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "frequency": {
+          "type": "string",
+          "enum": ["dispatches", "monographs", "all"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["email", "name", "frequency", "createdAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized editorial administrator record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "name", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/articles/{articleId}": {
+      "schema": { "$ref": "#/entities/Article" },
+      "description": "Published essays and drafts authored by Shane J. Lozenich."
+    },
+    "/tags/{tagId}": {
+      "schema": { "$ref": "#/entities/Tag" },
+      "description": "Custom editorial taxonomy tags."
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": { "$ref": "#/entities/Subscriber" },
+      "description": "Newsletter subscription records (write-only for public, read-only for admin)."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Admin authorization registry."
+    }
+  }
+}
